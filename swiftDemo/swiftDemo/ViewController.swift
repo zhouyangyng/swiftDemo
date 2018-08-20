@@ -15,15 +15,23 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.lightGray
+        view.backgroundColor = UIColor.white
+        
+        // 实例化
+        let rect1 = CGRect(x: 100, y: 100, width: 100, height: 100)
+        let myView = UIView(frame: rect1)
+        myView.backgroundColor = UIColor(displayP3Red: 0.5, green: 0.6, blue: 0.4, alpha: 1)
+        view.addSubview(myView)
+        
+        
         basicGrammar()
         stringAndCollectionType()
         functionalTest()
+        testStructAndClass()
+        testGenerics()
         
-        view.backgroundColor = UIColor.black
         
     }
-    
     
 }
 
@@ -169,17 +177,117 @@ extension ViewController {
     func functionalTest() {
         
         let array1 = [3, 6, 1, 10, 7]
+        // 排序 sorted
         let res1 = array1.sorted { (num1, num2) -> Bool in
             return num1 > num2
         }
         print(res1)
         
+        let res2 = array1.sorted {$0 > $1}
+        print(res2)
+        
+        // 过滤 filter
+        let res3 = array1.filter { (num1) -> Bool in
+            return num1 % 2 == 1
+        }
+        print(res3)
+        
+        let res4 = array1.filter{$0 > 5}
+        print(res4)
+        
+        // 遍历 map
+        let res5 = array1.map{$0 * 10}
+        print(res5)
+        
+        // Dictionary
+        let dic = [5: "😁", 10: "🍉", 1: "⚽️", 8: "🎱", 2: "🐼"]
+        let res6 = dic.sorted { (keyValue1, keyValue2) -> Bool in
+            return keyValue1.key < keyValue2.key
+        }
+        let res7 = dic.sorted{$0.key < $1.key}
+        print(res6, res7)
+    }
+}
+
+// 💗 struct和class
+extension ViewController {
+    
+    func testStructAndClass() {
+        
+        let dog1 = Dog(name: "小花", height: 80.0)
+        var dog2 = Dog(name: "大黄", height: 33.5)
+        
+        let person1 = Person(dog: dog1)
+        let person2 = person1
+        // 给 person1 赋值 dog2
+        person1.dog = dog2
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        print(person2)
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        
+        // 修改 dog2
+        dog2.name = "小白"
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        print(person1)
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        
+        
+        // String、Array、Dictionary
+        var array1 = [1, 2, 3]
+        let array2 = array1
+        array1.append(contentsOf: [7, 8, 9])
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        print("array1=>\(array1),,,array2=>\(array2)")
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        
+    }
+}
+
+// 泛型
+extension ViewController {
+    
+    func testGenerics() {
         
         
     }
     
+    /*
+    func swap(a: Int, b: Int) {
+        
+        let temp = a
+        a = b
+        b = temp
+    }
+    */
     
     
+}
+
+protocol Food {
+    
+}
+
+protocol Animal {
+    func eat(food:Food)
+}
+
+struct Fish: Food {
+    
+}
+
+struct Grass {
+    
+}
+
+struct Cat: Animal {
+    
+    func eat(food: Food) {
+        if food is Fish {
+            print("猫吃🐟")
+        }else {
+            return
+        }
+    }
 }
 
 
